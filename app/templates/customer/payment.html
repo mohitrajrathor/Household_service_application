@@ -1,0 +1,65 @@
+{% extends 'base.html' %}
+
+{% block navlinks %}
+    <li>
+        <a 
+        class="nav-link {% if request.endpoint == 'customer.dashboard' %}active{% endif %}" 
+        href="{{ url_for("customer.dashboard") }}"
+        >Dashboard</a>
+    </li>
+    <li>
+        <a 
+        class="nav-link {% if request.endpoint == 'customer.summary' %}active{% endif %}" 
+        href="{{ url_for("customer.summary") }}"
+        >Summary</a>
+    </li>
+{% endblock navlinks %}
+
+{% block main %}
+<main class="bg-light" style="height: 100vh;">
+    <div class="container h-100 d-flex justify-content-center align-items-center">
+        <div class="card shadow-lg w-75">
+            <!-- Header Section -->
+            <div class="card-header bg-dark text-white text-center">
+                <h1 class="m-0">Payment Page</h1>
+            </div>
+
+            <!-- Professional Details -->
+            <div class="card-body border-bottom">
+                <h4 class="mb-3">To: {{ req.professional.name }}</h4>
+                <h4 class="mb-3">For: {{ req.title }}</h4>
+                <div class="row">
+                    <div class="col">
+                        <h5>Email: {{ req.professional.email }}</h5>
+                    </div>
+                    <div class="col">
+                        <h5>Phone: {{ req.professional.phone_number }}</h5>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Customer Details -->
+            <div class="card-body">
+                <h4 class="mb-3">From: {{ req.customer.name }}</h4>
+                <h4 class="mb-3">For: {{ req.title }}</h4>
+                <div class="row">
+                    <div class="col">
+                        <h5>Email: {{ req.customer.email }}</h5>
+                    </div>
+                    <div class="col">
+                        <h5>Phone: {{ req.customer.phone_number }}</h5>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Payment Button -->
+            <div class="card-footer text-center">
+                <a href="{{ url_for('customer.close_req', req_id=req.id) }}" class="btn btn-dark w-100">
+                    Done Payment
+                </a>
+            </div>
+        </div>
+    </div>
+</main>
+
+{% endblock main %}

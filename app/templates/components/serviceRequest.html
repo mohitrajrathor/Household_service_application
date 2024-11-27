@@ -331,9 +331,9 @@
     <!-- close service -->
     {% if req.service_status in ['in_progress', 'completed', 'accepted'] %}
         <a 
-        class="btn btn-secondary btn-sm"
-        href="{{ url_for('customer.close_req', req_id=req.id) }}"
-        >Close</a>
+        class="btn btn-primary btn-sm"
+        href="{{ url_for('customer.payment', req_id=req.id) }}"
+        >Pay</a>
     {% endif %}
 
     {% if req.service_status == 'requested' %}
@@ -422,8 +422,8 @@
                                     {% if req.service_status == 'rejected' %}
                                         <span class="badge text-bg-danger">Rejected</span>
                                     {% endif %}
-                                    {% if req.service_status == 'closed' %}
-                                        <span class="badge text-bg-secondary">Closed</span>
+                                    {% if req.service_status in ['paid', 'closed'] %}
+                                        <span class="badge text-bg-success">Paid</span>
                                     {% endif %}
                                     {% if req.service_status == 'completed' %}
                                         <span class="badge text-bg-success">Completed</span>

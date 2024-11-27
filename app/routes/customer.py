@@ -234,11 +234,11 @@ def close_req(req_id):
 
     req = ServiceRequest.query.get(req_id)
 
-    req.service_status = 'closed'
+    req.service_status = 'paid'
 
     try: 
         db.session.commit()
-        flash('Service Closed successfully!', 'success')
+        flash('Service Payment Done successfully!', 'success')
         return redirect(url_for('customer.dashboard'))
     
     except Exception as e:
@@ -320,3 +320,13 @@ def review_req(req_id):
         return redirect(url_for('customer.dashboard'))
 
     
+
+
+@customer.route('/payment')
+@is_customer
+def payment():
+    req_id = request.args.get('req_id')
+
+    req = ServiceRequest.query.get(req_id)
+
+    return render_template('customer/payment.html', req=req)
