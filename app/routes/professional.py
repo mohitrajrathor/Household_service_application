@@ -174,6 +174,7 @@ def dashboard():
     user = Professional.query.get(int(session['id']))
     services = Service.query.all()
     service_requests = user.service_requests
+    search_req = request.args.get('search_req')
 
     avg_rating = db.session.query(func.avg(Reviews.rating))\
         .filter(Reviews.prof_id == user.id)\
@@ -181,6 +182,9 @@ def dashboard():
     
     if avg_rating:
         avg_rating = round(avg_rating, 2)
+
+    if search_req:
+        service_requests = ServiceRequest.query.filter_by(professional_id=user.id).filter(ServiceRequest.title.ilike(f'%{search_req}%')).all()
 
     params = {
         'user' : user,
