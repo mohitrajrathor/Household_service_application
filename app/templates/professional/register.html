@@ -1,0 +1,95 @@
+{% extends 'base.html' %}
+
+{% block title %}
+    Register - Professional service
+{% endblock title %}
+
+
+{% block sidelink %}
+    <div>
+        <a class="btn btn-outline-primary" href="{{ url_for("professional.login") }}">Login</a>
+    </div>
+{% endblock sidelink %}
+
+
+
+{% block main %}
+    
+    <div class="container">
+        <div class="d-flex justify-content-center">
+            <div class="m-3 border border-2 border-dark rounded">
+                <div class="mt-5" style="max-width: 550px;">
+
+                    <div class="m-5">
+                        <h2 class="text-center">Professional Registration</h2>
+                        <form method="POST" action="{{ url_for('professional.register') }}" class="m-3" enctype="multipart/form-data">
+                            <!-- Name -->
+                            <div class="mb-1">
+                                <label for="name" class="form-label">Name</label>
+                                <input type="text" class="form-control" id="name" name="name" required>
+                            </div>
+                
+                            <!-- Email -->
+                            <div class="mb-1">
+                                <label for="email" class="form-label">Email</label>
+                                <input type="email" class="form-control" id="email" name="email" required>
+                            </div>
+                
+                            <div class="row g-3 justify-content-between">
+                                <!-- Password -->
+                                <div class="col mb-1">
+                                    <label for="password" class="form-label">Password</label>
+                                    <input type="password" class="form-control" id="password" name="password" required>
+                                </div>
+                    
+                                <!-- Phone Number -->
+                                <div class="col mb-1">
+                                    <label for="phone" class="form-label">Phone Number</label>
+                                    <div class="input-group">
+                                        <span class="input-group-text">+91</span>
+                                        <input type="text" class="form-control" id="phone" name="phone" required>
+                                    </div>
+                                </div>
+                            </div>
+                
+                            <div class="row g-3 justify-content-between">
+                                <!-- Service Type -->
+                                <div class="mb-1 col" >
+                                    <label for="service_type" class="form-label">Service Type</label>
+                                    <select class="form-select" id="service_id" name="service_id" required>
+                                        <option value="">Select a Service</option>
+                                        {% for service in services %}
+                                        <option value="{{ service.id }}">{{ service.name.capitalize() }}</option>
+                                        {% endfor %}
+                                    </select>
+                                </div>
+                    
+                                <!-- Experience -->
+                                <div class="mb-3 col-auto">
+                                    <label for="experience" class="form-label">Years of Experience</label>
+                                    <input type="number" class="form-control" id="experience" name="experience" min="0" max="50" required>
+                                </div>
+                            </div>
+                
+                            <!-- Description -->
+                            <div class="mb-2">
+                                <label for="description" class="form-label">Description</label>
+                                <textarea class="form-control" id="description" name="description" rows="2"></textarea>
+                            </div>
+                
+                            <div class="input-group border border-dark rounded mb-3">
+                                <span class="input-group-text">Verify Document</span>
+                                <input type="file" name="verify-doc" class="form-control" placeholder="submit document" aria-label="doc" aria-describedby="basic-addon1">
+                            </div>
+
+                            <!-- Submit Button -->
+                            <button type="submit" class="btn btn-primary w-100">Register</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+{% endblock main %}

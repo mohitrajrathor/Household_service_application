@@ -1,0 +1,461 @@
+
+{% macro ViewRequest(user, req) %}
+    <!-- Button trigger modal -->
+    <button type="button" class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#viewServiceRequest-{{req.id}}">
+        View
+    </button>
+    
+    <!-- Modal -->
+    <div class="modal fade" id="viewServiceRequest-{{req.id}}" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="viewServiceRequest-{{req.id}}Label" aria-hidden="true">
+        <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+            <h1 class="modal-title fs-5" id="viewServiceRequest-{{req.id}}Label">Request a <span class="text-capitalize">{{req.service.name}}</span> Service</h1>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form id="viewRequestForm-{{req.id}}">
+                    <div class="row">
+                        <div class="mb-3 col-md-6">
+                            <label for="prof_name" class="form-label">Name</label>
+                            <input
+                                type="text"
+                                class="form-control"
+                                name="prof_name"
+                                id="prof_name"
+                                value="{{user.name}}"
+                                disabled
+                            />
+                        </div>
+                        <div class="mb-3 col-md-6">
+                            <label for="prof_phone" class="form-label">Phone</label>
+                            <input
+                                type="text"
+                                class="form-control"
+                                name="prof_phone"
+                                id="prof_phone"
+                                value="{{user.phone_number}}"
+                                disabled
+                            />
+                        </div>
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="title" class="form-label">Title</label>
+                        <input
+                            type="text"
+                            class="form-control"
+                            name="title"
+                            id="title"
+                            value="{{req.title}}"
+                            disabled
+                        />
+                    </div>
+
+                    <div class="row">
+                        <div class="mb-3 col-md-6">
+                            <label for="zipcode" class="form-label">Pin</label>
+                            <input
+                                type="text"
+                                class="form-control"
+                                name="zipcode"
+                                id="zipcode"
+                                value="{{req.location_pin_code}}"
+                                disabled
+                            />
+                        </div>
+                        <div class="mb-3 col-md-6">
+                            <label for="deadline" class="form-label">Deadline</label>
+                            <input
+                                type="date"
+                                class="form-control"
+                                name="deadline"
+                                id="deadline"
+                                value="{{req.date_of_completion.strftime('%Y-%m-%d')}}"
+                                disabled
+                            />
+                        </div>
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="remarks" class="form-label">Remarks</label>
+                        <input
+                            type="text"
+                            class="form-control"
+                            name="remarks"
+                            id="remarks"
+                            value="{{req.remarks}}"
+                            disabled
+                            />
+                    </div>
+                    
+                </form>
+            </div>
+            <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+            </div>
+        </div>
+        </div>
+    </div>
+{% endmacro %}
+
+
+{% macro UpdateRequest(user, req) %}
+    <!-- Button trigger modal -->
+    <button type="button" class="btn btn-dark btn-sm" data-bs-toggle="modal" data-bs-target="#updateRequestModal-{{req.id}}">
+        Update
+    </button>
+    
+    <!-- Modal -->
+    <div class="modal fade" id="updateRequestModal-{{req.id}}" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="updateRequestModal-{{req.id}}Label" aria-hidden="true">
+        <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+            <h1 class="modal-title fs-5" id="updateRequestModal-{{req.id}}Label">Update <span class="text-capitalize">{{req.service.name}}</span> Service</h1>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form method="POST" action="{{ url_for('customer.update_req', req_id=req.id) }}" id="viewRequestForm-{{req.id}}">
+                    <div class="row">
+                        <div class="mb-3 col-md-6">
+                            <label for="prof_name" class="form-label">Name</label>
+                            <input
+                                type="text"
+                                class="form-control"
+                                name="prof_name"
+                                id="prof_name"
+                                value="{{req.professional.name}}"
+                                disabled
+                            />
+                        </div>
+                        <div class="mb-3 col-md-6">
+                            <label for="prof_phone" class="form-label">Phone</label>
+                            <input
+                                type="text"
+                                class="form-control"
+                                name="prof_phone"
+                                id="prof_phone"
+                                value="{{req.professional.phone_number}}"
+                                disabled
+                            />
+                        </div>
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="title" class="form-label">Title</label>
+                        <input
+                            type="text"
+                            class="form-control"
+                            name="title"
+                            id="title"
+                            value="{{req.title}}"
+                            required
+                        />
+                    </div>
+
+                    <div class="row">
+                        <div class="mb-3 col-md-6">
+                            <label for="zipcode" class="form-label">Pin</label>
+                            <input
+                                type="text"
+                                class="form-control"
+                                name="zipcode"
+                                id="zipcode"
+                                value="{{req.location_pin_code}}"
+                                required
+                            />
+                        </div>
+                        <div class="mb-3 col-md-6">
+                            <label for="deadline" class="form-label">Deadline</label>
+                            <input
+                                type="date"
+                                class="form-control"
+                                name="deadline"
+                                id="deadline"
+                                value="{{req.date_of_completion.strftime('%Y-%m-%d')}}"
+                                required
+                            />
+                        </div>
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="remarks" class="form-label">Remarks</label>
+                        <input
+                            type="text"
+                            class="form-control"
+                            name="remarks"
+                            id="remarks"
+                            value="{{req.remarks}}"
+                            />
+                    </div>
+                    
+                </form>
+            </div>
+            <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+            <button type="submit" form="viewRequestForm-{{req.id}}" class="btn btn-primary">Update</button>
+            </div>
+        </div>
+        </div>
+    </div>
+{% endmacro %}
+
+
+<!-- professional actions -->
+{% macro ProfessionalAction(req, user) %}
+
+    <!-- view request -->
+    {{ ViewRequest(user, req) }}
+
+    {% if req.service_status == 'requested' %}
+        <a 
+        class="btn btn-success btn-sm"
+        href="{{ url_for('professional.accept_req', req_id=req.id) }}"
+        >Accept</a>
+    
+        <a 
+        class="btn btn-danger btn-sm"
+        href="{{ url_for('professional.reject_req', req_id=req.id) }}"
+        >Reject</a>
+    {% endif %}
+
+    {% if req.service_status in ['in_progress', 'accepted'] %}
+        <a 
+        class="btn btn-success btn-sm"
+        href="{{ url_for('professional.complete_req', req_id=req.id) }}"
+        >Completed</a>
+    {% endif %}
+
+
+{% endmacro %}
+
+
+
+
+<!-- give rating -->
+{% macro GiveReview(user, req) %}
+    <!-- Button trigger modal -->
+    <button type="button" class="btn btn-dark btn-sm" data-bs-toggle="modal" data-bs-target="#giveReviewModal-{{req.id}}">
+        Rate
+    </button>
+    
+    <!-- Modal -->
+    <div class="modal fade" id="giveReviewModal-{{req.id}}" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="giveReviewModal-{{req.id}}Label" aria-hidden="true">
+        <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+            <h1 class="modal-title fs-5" id="giveReviewModal-{{req.id}}Label">Rate <span class="text-capitalize">{{req.service.name}}</span> Service</h1>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form method="POST" action="{{ url_for('customer.review_req', req_id=req.id) }}" id="giveReviewForm-{{req.id}}">
+                    <div class="row">
+                        <div class="mb-3 col-md-6">
+                            <label for="prof_name" class="form-label">Name</label>
+                            <input
+                                type="text"
+                                class="form-control"
+                                name="prof_name"
+                                id="prof_name"
+                                value="{{req.professional.name}}"
+                                disabled
+                            />
+                        </div>
+                        <div class="mb-3 col-md-6">
+                            <label for="prof_phone" class="form-label">Phone</label>
+                            <input
+                                type="text"
+                                class="form-control"
+                                name="prof_phone"
+                                id="prof_phone"
+                                value="{{req.professional.phone_number}}"
+                                disabled
+                            />
+                        </div>
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="title" class="form-label">Title</label>
+                        <input
+                            type="text"
+                            class="form-control"
+                            name="title"
+                            id="title"
+                            value="{{req.title}}"
+                            disabbled
+                        />
+                    </div>
+
+                    <div class="mb-3 col-md-6">
+                        <label for="rating" class="form-label">Rating</label>
+                        <input
+                            type="Float"
+                            class="form-control"
+                            name="rating"
+                            id="rating"
+                            placeholder="3.0"
+                            required
+                        />
+                    </div>
+                    <div class="mb-3 col-md-6">
+                        <label for="review" class="form-label">Review</label>
+                        <input
+                            type="text"
+                            class="form-control"
+                            name="review"
+                            id="review"
+                            placeholder="Fab service!"
+                            required
+                        />
+                    </div>                    
+                </form>
+            </div>
+            <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+            <button type="submit" form="giveReviewForm-{{req.id}}" class="btn btn-primary">Update</button>
+            </div>
+        </div>
+        </div>
+    </div>
+{% endmacro %}
+
+
+
+
+<!-- customer actions -->
+{% macro CustomerAction(req, user) %}
+    <!-- customer can view request -->
+    {{ ViewRequest(user, req) }}
+
+    <!-- close service -->
+    {% if req.service_status in ['in_progress', 'completed', 'accepted'] %}
+        <a 
+        class="btn btn-secondary btn-sm"
+        href="{{ url_for('customer.close_req', req_id=req.id) }}"
+        >Close</a>
+    {% endif %}
+
+    {% if req.service_status == 'requested' %}
+        <a 
+        class="btn btn-danger btn-sm"
+        href="{{ url_for('customer.cancel_req', req_id=req.id) }}"
+        >Cancel</a>
+
+        <!-- update request if not accepted yet -->
+        {{ UpdateRequest(user, req) }}
+    {% endif %}
+
+
+{% endmacro %}
+
+
+
+{% macro ServiceRequestBlock(requests, user) %}
+    <div class="shadow mt-2 rounded mb-5">
+
+        <div class="rounded-top bg-dark p-1">
+            <h4 class="text-center text-light">Service Request</h4>
+        </div>
+
+        {% if not requests %}
+        <div class="p-3">
+            <h5 class="text-center d-block text-danger">No services request yet!</h5>
+        </div>
+        {% else %}
+            <div class="row overflow-auto m-3 pb-3" style="max-height: 300px;">
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th scope="col">#</th>
+                            <th>Service Title</th>
+                            <th scope="col">
+                                {% if session.get('role') == 'professional' %}
+                                    Customer Name
+                                {% endif %}
+                                {% if session.get('role') == 'customer' %}
+                                    Professional Name
+                                {% endif %}
+                            </th>
+                            <th scope="col">Phone</th>
+                            <th scope="col">Deadline</th>
+                            <th scope="col">Status</th>
+                            <th scope="col">Rating</th>
+                            <th scope="col">Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for req in requests %}
+                            <tr>
+                                <th scope="row">{{req.id}}</th>
+                                <td>
+                                    {{ req.title }}
+                                </td>
+                                <td>
+                                    {% if session.get('role') == 'customer' %}
+                                        {{req.professional.name}}
+                                    {% endif %}
+                                    {% if session.get('role') == 'professional' %}
+                                        {{req.customer.name}}
+                                    {% endif %}
+                                </td>
+                                <td>+91 
+                                    {% if session.get('role') == 'customer' %}
+                                        {{req.professional.phone_number}}
+                                    {% endif %}
+                                    {% if session.get('role') == 'professional' %}
+                                        {{req.customer.phone_number}}
+                                    {% endif %}
+                                </td>
+                                <td>{{req.date_of_completion.strftime('%Y-%m-%d')}}</td>
+                                <td>
+                                    {% if req.service_status == 'requested' %}
+                                        <span class="badge text-bg-primary">Requested</span>
+                                    {% endif %}
+                                    {% if req.service_status in ['in_progress', 'accepted'] %}
+                                        <span class="badge text-bg-warning">In Progress</span>
+                                    {% endif %}
+                                    {% if req.service_status == 'rejected' %}
+                                        <span class="badge text-bg-danger">Rejected</span>
+                                    {% endif %}
+                                    {% if req.service_status == 'closed' %}
+                                        <span class="badge text-bg-secondary">Closed</span>
+                                    {% endif %}
+                                    {% if req.service_status == 'completed' %}
+                                        <span class="badge text-bg-success">Completed</span>
+                                    {% endif %}
+                                    {% if req.service_status == 'cancelled' %}
+                                        <span class="badge text-bg-danger">Cancelled</span>
+                                    {% endif %}
+                                </td>
+                                <td>
+                                    {% if req.review %}
+                                        <i class="bi bi-star-fill text-warning"></i> {{ req.review.rating }}
+                                    {% else %}    
+                                        {% if req.service_status in ['completed', 'closed'] and session.get('role') == 'customer' %}
+                                            {{ GiveReview(user, req) }}
+                                        {% else %}
+                                            <span class="badge text-bg-secondary">nil</span>
+                                        {% endif %}
+                                    {% endif %}
+                                </td>
+                                <td>
+
+                                    {% if session.get('role') == 'professional' %}
+                                        {{ ProfessionalAction(req, user) }}
+                                    {% endif %}
+
+                                    {% if session.get('role') == 'customer' %}
+                                        {{ CustomerAction(req, user) }}
+                                    {% endif %}
+
+                                </td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+                
+            </div>
+        {% endif %}
+
+    </div>
+{% endmacro %}

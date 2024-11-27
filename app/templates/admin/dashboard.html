@@ -1,0 +1,228 @@
+{% extends 'base.html' %}
+{% from 'components/service.html' import ServiceCard %}
+
+
+{% block navlinks %}
+  <li>
+    <a 
+    class="nav-link {% if request.endpoint == 'admin.dashboard' %}active{% endif %}" 
+    href="{{ url_for("admin.dashboard") }}"
+    >Dashboard</a>
+  </li>
+  <li>
+    <a 
+    class="nav-link {% if request.endpoint == 'admin.search' %}active{% endif %}" 
+    href="{{ url_for("admin.search") }}"
+    >Search</a>
+  </li>
+  <li>
+    <a 
+    class="nav-link {% if request.endpoint == 'admin.summary' %}active{% endif %}" 
+    href="{{ url_for("admin.summary") }}"
+    >Summary</a>
+  </li>
+{% endblock navlinks %}
+
+
+{% block sidelink %}
+  <a class="btn btn-dark" href="{{ url_for('admin.logout') }}">Logout</a>
+{% endblock sidelink %}
+
+
+
+
+{% block main %}
+
+  <div class="container-fluid d-flex justify-content-between pt-2">
+    <!-- left block -->
+    <div class="container-fluid w-75">
+
+      <!-- service block -->
+      <div class="shadow mt-3 rounded mb-5">
+
+        <div class="rounded-top bg-dark p-1">
+          <h4 class="text-center text-light">Manage Services</h4>
+        </div>
+
+        {% if not services %}
+          <div class="p-3">
+              <h5 class="text-center d-block text-danger">No services register yet!</h5>
+          </div>
+        {% else %}
+          <div class="row overflow-auto m-3 pb-3" style="height: 340px;">
+            {% for service in services %}
+              {{ ServiceCard(service) }}
+            {% endfor %}
+          </div>
+        {% endif %}
+
+      </div>
+
+      <!-- professional block -->
+      <div class="shadow mt-3 rounded mb-5">
+
+        <div class="rounded-top bg-dark p-1">
+          <h4 class="text-center text-light">Manage Professional</h4>
+        </div>
+
+        {% if not professionals %}
+          <div class="p-3">
+              <h5 class="text-center d-block text-danger">No Professional register yet!</h5>
+          </div>
+        {% else %}
+          <div class="row overflow-auto m-3 pb-3" style="max-height: 400px;">
+            <table class="table">
+              <thead>
+                <tr>
+                  <th scope="col">#</th>
+                  <th scope="col">Name</th>
+                  <th scope="col">Email</th>
+                  <th scope="col">Phone</th>
+                  <th scope="col">Status</th>
+                  <th scope="col">Actions</th>
+                </tr>
+              </thead>
+              <tbody>
+                {% for prof in professionals %}
+                <tr>
+                  <th scope="col">{{ prof.id }}</th>
+                  <th scope="col">{{ prof.name }}</th>
+                  <th scope="col">{{ prof.email }}</th>
+                  <th scope="col">+91 {{ prof.phone_number }}</th>
+                  <th scope="col">
+                    {% if prof.is_active %}
+                      <span class="badge text-bg-success">Active</span>
+                    {% else %}
+                      <span class="badge text-bg-danger">Blocked</span>
+                    {% endif %}
+
+                    {% if prof.verified %}
+                      <span class="badge text-bg-success">Verified</span>
+                    {% else %}
+                      <span class="badge text-bg-danger">Not verified</span>
+                    {% endif %}
+                  </th>
+                  <th scope="col">
+                    <div class="d-flex">     
+                      <a href="{{ url_for('api.gen_api.view_doc', prof_id=prof.id) }}" target="_blank" class="btn btn-sm btn-info me-1">View Doc</a>
+                      
+                      {% if not prof.verified %}
+                        <a class="btn btn-sm btn-success me-1" href="{{ url_for('admin.verify_prof', prof_id=prof.id) }}">Verify</a>
+                      {% endif %}
+
+                      {% if prof.is_active %}
+                        <a class="me-1 btn btn-danger btn-sm me-1" href="{{ url_for('admin.block_prof', prof_id=prof.id) }}">Block</a>
+                      {% else %}
+                        <a class="me-1 btn btn-primary btn-sm me-1" href="{{ url_for('admin.unblock_prof', prof_id=prof.id) }}">Unblock</a>
+                      {% endif %}
+                    </div>
+                  </th>
+                </tr>
+                {% endfor %}
+              </tbody>
+            </table>
+          </div>
+        {% endif %}
+
+      </div>
+
+
+      <!-- customer block -->
+      <div class="shadow mt-3 rounded mb-5">
+
+        <div class="rounded-top bg-dark p-1">
+          <h4 class="text-center text-light">Manage Customer</h4>
+        </div>
+
+        {% if not customers %}
+          <div class="p-3">
+              <h5 class="text-center d-block text-danger">No Customer register yet!</h5>
+          </div>
+        {% else %}
+          <div class="row overflow-auto m-3 pb-3" style="max-height: 400px;">
+            <table class="table">
+              <thead>
+                <tr>
+                  <th scope="col">#</th>
+                  <th scope="col">Name</th>
+                  <th scope="col">Email</th>
+                  <th scope="col">Phone</th>
+                  <th scope="col">Status</th>
+                  <th scope="col">Actions</th>
+                </tr>
+              </thead>
+              <tbody>
+                {% for cust in customers %}
+                <tr>
+                  <th scope="col">{{ cust.id }}</th>
+                  <th scope="col">{{ cust.name }}</th>
+                  <th scope="col">{{ cust.email }}</th>
+                  <th scope="col">+91 {{ cust.phone_number }}</th>
+                  <th scope="col">
+                    {% if cust.is_active %}
+                      <span class="badge text-bg-success">Active</span>
+                    {% else %}
+                      <span class="badge text-bg-danger">Blocked</span>
+                    {% endif %}
+                  </th>
+                  <th scope="col">
+                    {% if cust.is_active %}
+                      <a class="btn btn-sm btn-danger" href="{{ url_for('admin.block_cust', cust_id=cust.id) }}">Block</a>
+                    {% else %}
+                      <a class="btn btn-sm btn-success" href="{{ url_for('admin.unblock_cust', cust_id=cust.id) }}">Unblock</a>
+                    {% endif %}
+                  </th>
+                </tr>
+                {% endfor %}
+              </tbody>
+            </table>
+          </div>
+        {% endif %}
+
+      </div>
+
+
+    </div>
+
+    <!-- right block -->
+    <div class="container w-25">
+      <!-- add service block -->
+       <div class="shadow mt-3 rounded border border-2 border-dark p-3 mb-4" style="min-width: 200px;">
+        <form id="add-service">
+          <h3 class="text-center">Add Service</h3>
+
+          <div class="mb-1">
+            <label for="name" class="form-label">Name</label>
+            <input type="text" class="form-control" id="name" name="name" aria-describedby="nameHelp">
+            <div id="namehelp" class="form-text">Service name must be unique.</div>
+          </div>
+
+          <div class="mb-1">
+            <label for="price" class="form-label">Price</label>
+            <input type="number" class="form-control" name="price" id="exampleInputPassword1">
+          </div>
+
+          <div class="mb-1">
+            <label for="price" class="form-label">Time Required</label>
+            <input type="text" class="form-control" name="time_required" id="exampleInputPassword1">
+          </div>
+
+          <div class="mb-3">
+            <label for="description" class="form-label">Description</label>
+            <textarea class="form-control" name="description" id="description" rows="3"></textarea>
+          </div>
+          
+
+          <button type="button" class="btn btn-primary" onclick="addService()">Submit</button>
+        </form>
+       </div>
+       
+    </div>
+
+
+    <script src="{{url_for('static', filename='js/service.js')}}"></script>
+    <script src="{{url_for('static', filename='js/admin.js')}}"></script>
+
+  </div>
+  
+{% endblock main %}

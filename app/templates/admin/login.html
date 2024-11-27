@@ -1,0 +1,41 @@
+{% extends 'base.html' %}
+
+{% block title %}Admin Login{% endblock title %}
+
+
+{% block main %}
+    
+    <div class="container">
+        <div style="height: 100vh;">
+          <div class="mt-5">
+              <div class="d-flex justify-content-center">
+                <div class="mt-5">
+                    <div class="shadow-lg border border-2 border-dark rounded p-5" style="max-width: 600px; min-width: 400px;">
+                        <h4 class="text-center">Admin Login</h4>
+        
+                        <div>
+                            <form action="{{ url_for('admin.login', next=request.args.get('next')) }}" method="POST">
+                                <div class="mb-3">
+                                  <label for="username" class="form-label">Username</label>
+                                  <input type="username" class="form-control" id="username" name="username" aria-describedby="usernameHelp" required>
+                                  <div id="usernameHelp" class="form-text">Don't have admin access, ask developer to give!</div>
+                                </div>
+                                <div class="mb-3">
+                                  <label for="password" class="form-label">Password</label>
+                                  <input type="password" class="form-control" name="password" id="password" required>
+                                </div>
+                                <div class="mb-3 form-check">
+                                  <input type="checkbox" class="form-check-input" id="checkDetails" required>
+                                  <label class="form-check-label" for="checkDetails">Detail are correct</label>
+                                </div>
+                                <button type="submit" class="btn btn-primary">Submit</button>
+                              </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+          </div>
+        </div>        
+    </div>
+
+{% endblock main %}

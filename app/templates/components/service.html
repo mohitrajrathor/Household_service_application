@@ -1,0 +1,144 @@
+{% macro ServiceCard(service) %}
+    
+    <div class="card m-1 p-2" style="width:250px; height: 300px;">
+        <div class="card-body">
+            <h5 class="card-title text-capitalize">{{ service.name }}</h5>
+
+            <div class="card-body">
+                <h6 class="card-subtitle text-body-secondary mb-1">Time: <span class="text-danger">{{ service.time_required }}</span></h6>
+                <h6 class="card-subtitle text-body-secondary">Price: <span class="text-success">{{ service.price }}</span> Rs.</h6>
+            </div>
+
+            <p class="card-text overflow-auto" style="height: 100px;">{{ service.description }}</p>
+        </div>
+        <div class="card-body">
+            {% if session.get('role') == 'admin' %}
+            <div class="d-flex justfy-content-end">
+                <!-- deleting service can cause trouble for registered professionals -->
+                <div>
+                    <a class="btn btn-danger btn-sm mx-1" onclick="deleteService({{ service.id }})">Delete</a>
+                </div>
+                <!-- update modal -->
+                <!-- Modal trigger button -->
+                <div>
+                    <button
+                    type="button"
+                    class="btn btn-success btn-sm mx-1"
+                    data-bs-toggle="modal"
+                    data-bs-target="#service-{{ service.id }}-modal"
+                    >
+                        Update
+                    </button>
+                    
+                    <!-- Modal Body -->
+                    <!-- if you want to close by clicking outside the modal, delete the last endpoint:data-bs-backdrop and data-bs-keyboard -->
+                    <div
+                        class="modal fade"
+                        id="service-{{ service.id }}-modal"
+                        tabindex="-1"
+                        data-bs-backdrop="static"
+                        data-bs-keyboard="false"
+                        
+                        role="dialog"
+                        aria-labelledby="modalTitleId"
+                        aria-hidden="true"
+                    >
+                        <div
+                            class="modal-dialog modal-dialog-scrollable modal-dialog-centered"
+                            role="document"
+                        >
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title" id="modalTitleId">
+                                        Update Service
+                                    </h5>
+                                    <button
+                                        type="button"
+                                        class="btn-close"
+                                        data-bs-dismiss="modal"
+                                        aria-label="Close"
+                                    ></button>
+                                </div>
+
+                                <form id="service-update-{{ service.id }}" >
+                                    <div class="modal-body">
+                                            <div class="mb-3">
+                                                <label for="name" class="form-label">Name</label>
+                                                <input
+                                                    type="text"
+                                                    class="form-control"
+                                                    name="name"
+                                                    id="name-update"
+                                                    aria-describedby="namehelpId"
+                                                    value="{{service.name}}"
+                                                />
+                                            </div>
+
+                                            <div class="mb-3">
+                                                <label for="price" class="form-label">Price</label>
+                                                <input
+                                                    type="text"
+                                                    class="form-control"
+                                                    name="price"
+                                                    id="price-update"
+                                                    aria-describedby="helpId"
+                                                    value="{{ service.price }}"
+                                                />
+                                            </div>
+
+                                            <div class="mb-3">
+                                                <label for="time-required" class="form-label">Time Required</label>
+                                                <input
+                                                    type="text"
+                                                    class="form-control"
+                                                    name="time_required"
+                                                    id="time_required"
+                                                    aria-describedby="helpId"
+                                                    value="{{ service.time_required }}"
+                                                />
+                                            </div>
+
+                                            <div class="mb-3">
+                                                <label for="description" class="form-label">Description</label>
+                                                <textarea class="form-control" name="description" id="description-update" rows="2" value="{{ service.description }}">{{ service.description }}</textarea>
+                                            </div>
+                                            
+                                                                                
+                                            
+                                        
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button
+                                            type="button"
+                                            class="btn btn-secondary"
+                                            data-bs-dismiss="modal"
+                                        >
+                                            Close
+                                        </button>
+                                        <button type="button" class="btn btn-primary" onclick="updateService({{ service.id }})">update</button>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Optional: Place to the bottom of scripts
+                <script>
+                    const serviceModel_{{service.id}} = new bootstrap.Modal(
+                        document.getElementById("service-{{ service.id }}-modal"),
+                        options,
+                    );
+                </script> -->
+                
+            </div>
+            {% endif %}
+
+            {% if session.get('role') == 'customer' %}
+                <a href="{{ url_for('customer.dashboard', service_id=service.id) }}" class="btn btn-sm btn-primary">Find Professional</a>
+            {% endif %}
+        </div>
+    </div>
+    
+
+{% endmacro %}

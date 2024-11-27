@@ -1,0 +1,45 @@
+{% extends 'base.html' %}
+
+{% block title %}Login - Professional{% endblock title %}
+
+{% block sidelink %}
+    <div>
+        <a class="btn btn-outline-primary" href="{{ url_for("professional.register") }}">Register</a>
+    </div>
+{% endblock sidelink %}
+
+{% block main %}
+    
+    <div class="container">
+        <div style="height: 100vh;">
+          <div class="mt-5">
+              <div class="d-flex justify-content-center">
+                <div class="mt-5">
+                    <div class="shadow-lg border border-2 border-dark rounded p-5" style="max-width: 600px; min-width: 400px;">
+                        <h4 class="text-center">Professional Login</h4>
+        
+                        <div>
+                            <form action="{{ url_for('professional.login', next=request.args.get('next')) }}" method="POST">
+                                <div class="mb-3">
+                                  <label for="username" class="form-label">Email</label>
+                                  <input type="email" class="form-control" id="email" name="email" aria-describedby="emailHelp" required>
+                                </div>
+                                <div class="mb-3">
+                                  <label for="password" class="form-label">Password</label>
+                                  <input type="password" class="form-control" name="password" id="password" required>
+                                </div>
+                                <div class="mb-3 form-check">
+                                  <input type="checkbox" class="form-check-input" id="checkDetails" required>
+                                  <label class="form-check-label" for="checkDetails">Detail are correct</label>
+                                </div>
+                                <button type="submit" class="btn btn-primary">Submit</button>
+                              </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+          </div>
+        </div>        
+    </div>
+
+{% endblock main %}

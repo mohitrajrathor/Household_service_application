@@ -1,0 +1,21 @@
+{% extends 'base.html' %}
+
+
+{% block navlinks %}
+    <li>
+        <a 
+        class="nav-link {% if request.endpoint == 'customer.dashboard' %}active{% endif %}" 
+        href="{{ url_for("customer.dashboard") }}"
+        >Dashboard</a>
+    </li>
+    <li>
+        <a 
+        class="nav-link {% if request.endpoint == 'customer.summary' %}active{% endif %}" 
+        href="{{ url_for("customer.summary") }}"
+        >Summary</a>
+    </li>
+{% endblock navlinks %}
+
+{% block sidelink %}
+    <a class="btn btn-dark" href="{{ url_for("customer.logout") }}">Logout</a>
+{% endblock sidelink %}

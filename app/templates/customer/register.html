@@ -1,0 +1,89 @@
+{% extends 'base.html' %}
+
+{% block title %}
+    Register - Customer
+{% endblock title %}
+
+
+
+{% block sidelink %}
+    <div>
+        <a class="btn btn-outline-primary" href="{{ url_for("customer.login") }}">Login</a>
+    </div>
+{% endblock sidelink %}
+
+
+
+{% block main %}
+    
+    <div class="container">
+        <div class="d-flex justify-content-center">
+            <div class="m-3 border border-2 border-dark rounded">
+                <div class="mt-5" style="max-width: 550px;">
+
+                    <div class="m-5">
+                        <h2 class="text-center">Customer Registration</h2>
+                        <form method="POST" action="{{ url_for('customer.register') }}" class="m-3">
+                            <!-- Name -->
+                            <div class="mb-1">
+                                <label for="name" class="form-label">Name</label>
+                                <input type="text" class="form-control" id="name" name="name" placeholder="Mr. abc" required>
+                            </div>
+                
+                            <!-- Email -->
+                            <div class="mb-1">
+                                <label for="email" class="form-label">Email</label>
+                                <input type="email" class="form-control" id="email" name="email" placeholder="xyz.notmail.com" required>
+                            </div>
+                
+                            <div class="row g-3 justify-content-between">
+                                <!-- Password -->
+                                <div class="col mb-1">
+                                    <label for="password" class="form-label">Password</label>
+                                    <input type="password" class="form-control" id="password" name="password" required>
+                                </div>
+                    
+                                <!-- Phone Number -->
+                                <div class="col mb-1">
+                                    <label for="phone" class="form-label">Phone Number</label>
+                                    <div class="input-group">
+                                        <span class="input-group-text">+91</span>
+                                        <input type="text" class="form-control" id="phone" name="phone" placeholder="9876XXXX10" required>
+                                    </div>
+                                </div>
+                            </div>
+                
+                            <!-- Address -->
+                            <div class="mb-3">
+                                <label for="street" class="form-label">Street Address</label>
+                                <input type="text" class="form-control" id="street" name="street_address" placeholder="1234 Main Street" required>
+                            </div>
+
+                            <div class="mb-3">
+                                <label for="city" class="form-label">City</label>
+                                <input type="text" class="form-control" id="city" name="city" placeholder="City" required>
+                            </div>
+                
+                            <div class="row g-3 mb-3">
+                                <div class="col-md-6">
+                                    <label for="state" class="form-label">State</label>
+                                    <input type="text" class="form-control" id="state" name="state" placeholder="State" required>
+                                </div>
+                                <div class="col-md-6">
+                                    <label for="zip" class="form-label">Zip Code</label>
+                                    <input type="text" class="form-control" id="zip" name="zip" placeholder="Zip Code" required>
+                                </div>
+                            </div>
+                            
+
+                            <!-- Submit Button -->
+                            <button type="submit" class="btn btn-primary w-100">Register</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+{% endblock main %}
