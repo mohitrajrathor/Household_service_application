@@ -266,8 +266,8 @@ def cancel_req(req_id):
 @customer.route('/update-req/<int:req_id>', methods=['POST'])
 @is_customer
 def update_req(req_id):
-
     data = request.form
+    print(data)
 
     req = ServiceRequest.query.get(req_id)
 

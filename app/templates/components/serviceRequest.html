@@ -102,20 +102,20 @@
 
 {% macro UpdateRequest(user, req) %}
     <!-- Button trigger modal -->
-    <button type="button" class="btn btn-dark btn-sm" data-bs-toggle="modal" data-bs-target="#updateRequestModal-{{req.id}}">
+    <button type="button" class="btn btn-secondary btn-sm" data-bs-toggle="modal" data-bs-target="#updateServiceRequest-{{req.id}}">
         Update
     </button>
     
     <!-- Modal -->
-    <div class="modal fade" id="updateRequestModal-{{req.id}}" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="updateRequestModal-{{req.id}}Label" aria-hidden="true">
+    <div class="modal fade" id="updateServiceRequest-{{req.id}}" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="updateServiceRequest-{{req.id}}Label" aria-hidden="true">
         <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
-            <h1 class="modal-title fs-5" id="updateRequestModal-{{req.id}}Label">Update <span class="text-capitalize">{{req.service.name}}</span> Service</h1>
+            <h1 class="modal-title fs-5" id="updateServiceRequest-{{req.id}}Label">Request a <span class="text-capitalize">{{req.service.name}}</span> Service</h1>
             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-                <form method="POST" action="{{ url_for('customer.update_req', req_id=req.id) }}" id="viewRequestForm-{{req.id}}">
+                <form id="updateRequestForm-{{req.id}}" action="{{ url_for('customer.update_req', req_id=req.id) }}" method="POST">
                     <div class="row">
                         <div class="mb-3 col-md-6">
                             <label for="prof_name" class="form-label">Name</label>
@@ -124,7 +124,7 @@
                                 class="form-control"
                                 name="prof_name"
                                 id="prof_name"
-                                value="{{req.professional.name}}"
+                                value="{{user.name}}"
                                 disabled
                             />
                         </div>
@@ -135,7 +135,7 @@
                                 class="form-control"
                                 name="prof_phone"
                                 id="prof_phone"
-                                value="{{req.professional.phone_number}}"
+                                value="{{user.phone_number}}"
                                 disabled
                             />
                         </div>
@@ -186,6 +186,7 @@
                             name="remarks"
                             id="remarks"
                             value="{{req.remarks}}"
+                            required
                             />
                     </div>
                     
@@ -193,7 +194,7 @@
             </div>
             <div class="modal-footer">
             <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-            <button type="submit" form="viewRequestForm-{{req.id}}" class="btn btn-primary">Update</button>
+            <button type="submit" class="btn btn-primary" form="updateRequestForm-{{req.id}}">Make Request</button>
             </div>
         </div>
         </div>
