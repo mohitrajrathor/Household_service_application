@@ -283,11 +283,11 @@
                             name="title"
                             id="title"
                             value="{{req.title}}"
-                            disabbled
+                            disabled
                         />
                     </div>
 
-                    <div class="mb-3 col-md-6">
+                    <div class="mb-3">
                         <label for="rating" class="form-label">Rating</label>
                         <input
                             type="Float"
@@ -298,7 +298,7 @@
                             required
                         />
                     </div>
-                    <div class="mb-3 col-md-6">
+                    <div class="mb-3">
                         <label for="review" class="form-label">Review</label>
                         <input
                             type="text"
@@ -313,7 +313,7 @@
             </div>
             <div class="modal-footer">
             <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-            <button type="submit" form="giveReviewForm-{{req.id}}" class="btn btn-primary">Update</button>
+            <button type="submit" form="giveReviewForm-{{req.id}}" class="btn btn-primary">Submit</button>
             </div>
         </div>
         </div>
@@ -354,8 +354,12 @@
 {% macro ServiceRequestBlock(requests, user) %}
     <div class="shadow mt-2 rounded mb-5">
 
-        <div class="rounded-top bg-dark p-1">
-            <h4 class="text-center text-light">Service Request</h4>
+        <div class="rounded-top bg-dark p-2 d-flex justify-content-between">
+            <h4 class="text-center text-light w-100">Service Request</h4>
+            <form class="d-flex me-3" role="search">
+                <input class="form-control me-2" type="search" name="search_req" placeholder="Search" aria-label="Search">
+                <button class="btn btn-outline-light btn-sm" type="submit">Search</button>
+            </form>
         </div>
 
         {% if not requests %}

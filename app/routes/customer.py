@@ -119,6 +119,7 @@ def dashboard():
     service_id = request.args.get('service_id')
     search_service = request.args.get('search_service')
     search_professional = request.args.get('search_prof')
+    search_req = request.args.get('search_req')
 
     user = Customer.query.get(session.get('id'))
 
@@ -135,7 +136,10 @@ def dashboard():
     if search_professional:
         professionals = Professional.query.filter(Professional.name.ilike(f'%{search_professional}%')).all()
 
-    requests = ServiceRequest.query.filter_by(customer_id=user.id).all()
+    if search_req:
+        requests = ServiceRequest.query.filter_by(customer_id=user.id).filter(ServiceRequest.title.ilike(f'%{search_req}%')).all()
+    else:
+        requests = ServiceRequest.query.filter_by(customer_id=user.id).all()
 
     params = {
         'user' : user,
@@ -294,7 +298,7 @@ def update_req(req_id):
 def review_req(req_id):
     data = request.form
 
-    req = ServiceRequest.query.get('req_id')
+    req = ServiceRequest.query.get(req_id)
 
     review = Reviews(
         prof_id=req.professional.id,
