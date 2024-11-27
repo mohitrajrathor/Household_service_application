@@ -19,3 +19,76 @@
 {% block sidelink %}
     <a class="btn btn-dark" href="{{ url_for("customer.logout") }}">Logout</a>
 {% endblock sidelink %}
+
+
+{% block main %}
+<div class="container mt-5">
+    <h1>Customer Summary</h1>
+
+    <div class="row my-4">
+        <!-- Active Service Requests -->
+        <div class="col-md-3">
+            <div class="card text-white bg-info">
+                <div class="card-body">
+                    <h5 class="card-title">Active Service Requests</h5>
+                    <p class="card-text" id="active-requests">Loading...</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Reviews -->
+        <div class="col-md-3">
+            <div class="card text-white bg-warning">
+                <div class="card-body">
+                    <h5 class="card-title">Reviews</h5>
+                    <p class="card-text" id="reviews">Loading...</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row my-4">
+        <!-- Chart Section -->
+        <div class="col-md-12">
+            <canvas id="serviceRequestsChart" width="400" height="200"></canvas>
+        </div>
+    </div>
+
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        // Fetch data from APIs to populate customer dashboard
+        fetch('/api/customer/summary_data')
+            .then(response => response.json())
+            .then(data => {
+                // Populate statistics
+                document.getElementById('active-requests').innerText = data.active_requests;
+                document.getElementById('reviews').innerText = data.reviews;
+
+                // Create chart for service requests over time
+                const ctx = document.getElementById('serviceRequestsChart').getContext('2d');
+                new Chart(ctx, {
+                    type: 'line',
+                    data: {
+                        labels: data.dates, // dates for the x-axis
+                        datasets: [{
+                            label: 'Service Requests Over Time',
+                            data: data.service_requests_over_time, // corresponding data points
+                            borderColor: 'rgb(54, 162, 235)',
+                            fill: false
+                        }]
+                    },
+                    options: {
+                        scales: {
+                            x: {
+                                beginAtZero: true
+                            }
+                        }
+                    }
+                });
+            });
+    });
+</script>
+{% endblock %}

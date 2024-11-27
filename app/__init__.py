@@ -4,6 +4,7 @@ from flask_migrate import Migrate
 import os
 from dotenv import load_dotenv
 import logging
+from sqlalchemy import func
 
 
 db = SQLAlchemy()
@@ -73,6 +74,30 @@ def create_app(test_config=None):
     
     @app.route('/')
     def home():
-        return render_template('home.html')
+
+        top_services = db.session.query(
+        Service.id,
+        Service.name,
+        Service.description,
+        Service.price,
+        func.avg(Reviews.rating).label('avg_rating')
+        ).join(Reviews, Reviews.service_req_id == Service.id)\
+        .group_by(Service.id)\
+        .order_by(func.avg(Reviews.rating).desc())\
+        .limit(3).all()
+
+        # Convert query results to a dictionary for easier handling in templates
+        top_services = [
+            {
+                'id': service.id,
+                'name': service.name,
+                'description': service.description,
+                'price': service.price,
+                'avg_rating': service.avg_rating or 0
+            }
+            for service in top_services
+        ]
+
+        return render_template('home.html', top_services=top_services)
     
     return app

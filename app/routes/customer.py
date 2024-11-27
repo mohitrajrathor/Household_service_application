@@ -147,11 +147,6 @@ def dashboard():
     return render_template("customer/dashboard.html", **params)
 
 
-@customer.route('/search')
-@is_customer
-def search():
-    return render_template("customer/search.html")
-
 
 @customer.route('/summary')
 @is_customer

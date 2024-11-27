@@ -24,3 +24,87 @@
 {% block sidelink %}
     <a class="btn btn-dark" href="{{ url_for("professional.logout") }}">Logout</a>
 {% endblock sidelink %}
+
+
+{% block main %}
+<div class="container mt-5">
+    <h1>Professional Dashboard</h1>
+
+    <div class="row my-4">
+        <!-- Active Service Requests -->
+        <div class="col-md-3">
+            <div class="card text-white bg-primary">
+                <div class="card-body">
+                    <h5 class="card-title">Active Service Requests</h5>
+                    <p class="card-text" id="active-requests">Loading...</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Completed Services -->
+        <div class="col-md-3">
+            <div class="card text-white bg-success">
+                <div class="card-body">
+                    <h5 class="card-title">Completed Services</h5>
+                    <p class="card-text" id="completed-services">Loading...</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Reviews -->
+        <div class="col-md-3">
+            <div class="card text-white bg-warning">
+                <div class="card-body">
+                    <h5 class="card-title">Total Reviews</h5>
+                    <p class="card-text" id="reviews">Loading...</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row my-4">
+        <!-- Chart Section -->
+        <div class="col-md-12">
+            <canvas id="completedServicesChart" width="400" height="200"></canvas>
+        </div>
+    </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        // Fetch data from APIs to populate professional dashboard
+        fetch('/api/professional/summary_data')
+            .then(response => response.json())
+            .then(data => {
+                // Populate statistics
+                document.getElementById('active-requests').innerText = data.active_requests;
+                document.getElementById('completed-services').innerText = data.completed_services;
+                document.getElementById('reviews').innerText = data.reviews;
+
+                // Create chart for completed services over time
+                const ctx = document.getElementById('completedServicesChart').getContext('2d');
+                new Chart(ctx, {
+                    type: 'bar',
+                    data: {
+                        labels: data.dates, // Dates for the x-axis
+                        datasets: [{
+                            label: 'Completed Services Over Time',
+                            data: data.completed_services_over_time, // Corresponding data points
+                            backgroundColor: 'rgba(75, 192, 192, 0.2)',
+                            borderColor: 'rgba(75, 192, 192, 1)',
+                            borderWidth: 1
+                        }]
+                    },
+                    options: {
+                        scales: {
+                            y: {
+                                beginAtZero: true
+                            }
+                        }
+                    }
+                });
+            });
+    });
+</script>
+{% endblock %}

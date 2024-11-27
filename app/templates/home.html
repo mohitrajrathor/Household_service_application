@@ -40,7 +40,7 @@
 
 
 {% block main %}
-    <div>        
+    <div class="bg-light">        
         <!-- main page block -->
         <section id="home">
             <div class="d-flex justify-content-between text-light" 
@@ -74,7 +74,6 @@
 
             </div>
         </section>
-
 
 
         <!-- Role options -->
@@ -171,7 +170,32 @@
                       </div>
                 </div>
             </div>
-        </section>    
+        </section>  
+        
+        
+        <!-- top services -->
+        <section id="services">
+          <div class="container my-5 shadow p-5 rounded-pill bg-dark bg-gradient">
+            <h2 class="text-center text-light mb-4">Top Services</h2>
+            <div class="d-flex justify-content-center">
+                {% for service in top_services %}
+                <div class="mb-3 mx-5">
+                    <div class="card shadow-lg bg-warning text-light rounded-pill">
+                        <div class="card-body">
+                            <h5 class="card-title text-center">{{ service.name }}</h5>
+                            <p class="card-text text-center">{{ service.description if service.description else "No description available." }}</p>
+                            <div class="d-flex justify-content-between align-items-center px-3">
+                                <span class="badge bg-primary me-3">Avg. Rating: {{ service.avg_rating|round(1) }}  </span>  
+                                <span class="text-success fs-6 fw-bold">₹{{ service.price }}</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+          </div>
+
+        </section>
 
 
 

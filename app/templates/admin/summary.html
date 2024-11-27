@@ -26,3 +26,98 @@
 {% block sidelink %}
   <a class="btn btn-dark" href="{{ url_for('admin.logout') }}">Logout</a>
 {% endblock sidelink %}
+
+
+{% block main %}
+<div class="container mt-5">
+    <h1>Dashboard</h1>
+
+    <div class="row my-4">
+        <!-- Active Professionals -->
+        <div class="col-md-3">
+            <div class="card text-white bg-primary">
+                <div class="card-body">
+                    <h5 class="card-title">Active Professionals</h5>
+                    <p class="card-text" id="active-professionals">Loading...</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Active Customers -->
+        <div class="col-md-3">
+            <div class="card text-white bg-success">
+                <div class="card-body">
+                    <h5 class="card-title">Active Customers</h5>
+                    <p class="card-text" id="active-customers">Loading...</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Service Requests -->
+        <div class="col-md-3">
+            <div class="card text-white bg-warning">
+                <div class="card-body">
+                    <h5 class="card-title">Service Requests</h5>
+                    <p class="card-text" id="service-requests">Loading...</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Reviews -->
+        <div class="col-md-3">
+            <div class="card text-white bg-danger">
+                <div class="card-body">
+                    <h5 class="card-title">Reviews</h5>
+                    <p class="card-text" id="reviews">Loading...</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row my-4">
+        <!-- Chart Section -->
+        <div class="col-md-12">
+            <canvas id="serviceRequestsChart" width="400" height="200"></canvas>
+        </div>
+    </div>
+
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        // Fetch data from APIs to populate dashboard
+        fetch('/api/admin/summary_data')
+            .then(response => response.json())
+            .then(data => {
+                // Populate statistics
+                document.getElementById('active-professionals').innerText = data.active_professionals;
+                document.getElementById('active-customers').innerText = data.active_customers;
+                document.getElementById('service-requests').innerText = data.service_requests;
+                document.getElementById('reviews').innerText = data.reviews;
+
+                // Create chart for service requests over time
+                const ctx = document.getElementById('serviceRequestsChart').getContext('2d');
+                new Chart(ctx, {
+                    type: 'line',
+                    data: {
+                        labels: data.dates, // dates for the x-axis
+                        datasets: [{
+                            label: 'Service Requests Over Time',
+                            data: data.service_requests_over_time, // corresponding data points
+                            borderColor: 'rgb(75, 192, 192)',
+                            fill: false
+                        }]
+                    },
+                    options: {
+                        scales: {
+                            x: {
+                                beginAtZero: true
+                            }
+                        }
+                    }
+                });
+            });
+    });
+</script>
+{% endblock %}
