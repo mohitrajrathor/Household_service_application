@@ -97,6 +97,10 @@ def login():
 
         user = Customer.query.filter_by(email=email).first()
 
+        if not user:
+            flash('Email not found!', 'warning')
+            return redirect(url_for('customer.login'))
+
         if user.check_password(password):
             session['role'] = 'customer'
             session['id'] = user.id

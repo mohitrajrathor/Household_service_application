@@ -496,7 +496,7 @@
                                     {% if req.review %}
                                         <i class="bi bi-star-fill text-warning"></i> {{ req.review[0] }}
                                     {% else %}    
-                                        {% if req.service_status in ['completed', 'closed'] and session.get('role') == 'customer' %}
+                                        {% if req.service_status in ['completed', 'paid'] and session.get('role') == 'customer' %}
                                             {{ GiveReview(user, req) }}
                                         {% else %}
                                             <span class="badge text-bg-secondary">nil</span>

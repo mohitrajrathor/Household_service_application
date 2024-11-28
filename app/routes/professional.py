@@ -119,7 +119,11 @@ def login():
         # fetching user details
         user = Professional.query.filter_by(email=user_email).first()
 
-        if user and user.check_password(password):
+        if not user:
+            flash('Email is wrong!', 'warning')
+            return redirect(url_for('professional.login'))
+
+        if user.check_password(password):
             session['role'] = 'professional'
             session['id'] = user.id
 
