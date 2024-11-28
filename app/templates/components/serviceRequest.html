@@ -434,7 +434,7 @@
                                 </td>
                                 <td>
                                     {% if req.review %}
-                                        <i class="bi bi-star-fill text-warning"></i> {{ req.review.rating }}
+                                        <i class="bi bi-star-fill text-warning"></i> {{ req.review[0] }}
                                     {% else %}    
                                         {% if req.service_status in ['completed', 'closed'] and session.get('role') == 'customer' %}
                                             {{ GiveReview(user, req) }}

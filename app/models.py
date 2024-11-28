@@ -95,7 +95,7 @@ class Professional(db.Model):
     service_type_id = db.Column(db.Integer, db.ForeignKey('services.id'), nullable=False) 
     experience = db.Column(db.Integer, nullable=True) 
     doc_path = db.Column(db.String, nullable=False)
-    verified = db.Column(db.Boolean, default=False)  
+    verified = db.Column(db.Boolean, default=False) 
     
     # Status Fields
     is_active = db.Column(db.Boolean, default=True)  
@@ -152,7 +152,7 @@ class Reviews(db.Model):
     customer = db.relationship('Customer', backref='reviews', lazy=True)
 
     def __repr__(self):
-        return f'<Review {self.customer.name} to {self.professional.name} rating:{self.rating}>'
+        return f'{self.rating}'
     
     def get_rating(self):
         '''return rating'''
