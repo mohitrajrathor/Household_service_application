@@ -1,5 +1,7 @@
 {% extends 'base.html' %}
 {% from 'components/service.html' import ServiceCard %}
+{% from 'components/serviceRequest.html' import ServiceRequestBlock %}
+
 
 
 {% block navlinks %}
@@ -181,6 +183,11 @@
 
       </div>
 
+      <!-- service Request section -->
+      <div class="container">
+        {{ ServiceRequestBlock(requests, user) }}
+      </div>
+
 
     </div>
 
@@ -219,6 +226,8 @@
        
     </div>
 
+
+    
 
     <script src="{{url_for('static', filename='js/service.js')}}"></script>
     <script src="{{url_for('static', filename='js/admin.js')}}"></script>

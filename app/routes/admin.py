@@ -7,7 +7,7 @@ admin route file
 # imports
 from flask import (Blueprint, render_template, request, session, flash, redirect, url_for, current_app, \
                    send_from_directory, abort)
-from ..models import Admins, Service, Professional, Customer
+from ..models import Admins, Service, Professional, Customer, ServiceRequest
 from .. import db
 from functools import wraps
 import os
@@ -56,11 +56,17 @@ def dashboard():
     services = Service.query.all()
     professionals = Professional.query.all()
     customers = Customer.query.all()
+    requests = ServiceRequest.query.all()
+    user = Admins.query.get(session.get('id'))
+
+    print(requests)
 
     params = {
+        "user" : user,
         "services" : services,
         "professionals" : professionals,
-        "customers" : customers
+        "customers" : customers,
+        "requests" : requests
     }
 
     return render_template('admin/dashboard.html', **params)

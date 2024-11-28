@@ -15,30 +15,83 @@
             </div>
             <div class="modal-body">
                 <form id="viewRequestForm-{{req.id}}">
-                    <div class="row">
-                        <div class="mb-3 col-md-6">
-                            <label for="prof_name" class="form-label">Name</label>
-                            <input
-                                type="text"
-                                class="form-control"
-                                name="prof_name"
-                                id="prof_name"
-                                value="{{user.name}}"
-                                disabled
-                            />
+                    {% if session.get('role') == 'admin' %}
+                        <div class="row">
+                            <div class="mb-3 col-md-6">
+                                <label for="prof_name" class="form-label">Customer Name</label>
+                                <input
+                                    type="text"
+                                    class="form-control"
+                                    name="prof_name"
+                                    id="prof_name"
+                                    value="{{req.customer.name}}"
+                                    disabled
+                                />
+                            </div>
+                            <div class="mb-3 col-md-6">
+                                <label for="prof_phone" class="form-label">Cutstomer Phone</label>
+                                <input
+                                    type="text"
+                                    class="form-control"
+                                    name="prof_phone"
+                                    id="prof_phone"
+                                    value="{{req.customer.phone_number}}"
+                                    disabled
+                                />
+                            </div>
                         </div>
-                        <div class="mb-3 col-md-6">
-                            <label for="prof_phone" class="form-label">Phone</label>
-                            <input
-                                type="text"
-                                class="form-control"
-                                name="prof_phone"
-                                id="prof_phone"
-                                value="{{user.phone_number}}"
-                                disabled
-                            />
+
+                        <div class="row">
+                            <div class="mb-3 col-md-6">
+                                <label for="prof_name" class="form-label">Professional Name</label>
+                                <input
+                                    type="text"
+                                    class="form-control"
+                                    name="prof_name"
+                                    id="prof_name"
+                                    value="{{req.professional.name}}"
+                                    disabled
+                                />
+                            </div>
+                            <div class="mb-3 col-md-6">
+                                <label for="prof_phone" class="form-label">Professional Phone</label>
+                                <input
+                                    type="text"
+                                    class="form-control"
+                                    name="prof_phone"
+                                    id="prof_phone"
+                                    value="{{req.professional.phone_number}}"
+                                    disabled
+                                />
+                            </div>
                         </div>
-                    </div>
+
+                    {% else %}
+                        <div class="row">
+                            <div class="mb-3 col-md-6">
+                                <label for="prof_name" class="form-label">Name</label>
+                                <input
+                                    type="text"
+                                    class="form-control"
+                                    name="prof_name"
+                                    id="prof_name"
+                                    value="{{user.name}}"
+                                    disabled
+                                />
+                            </div>
+                            <div class="mb-3 col-md-6">
+                                <label for="prof_phone" class="form-label">Phone</label>
+                                <input
+                                    type="text"
+                                    class="form-control"
+                                    name="prof_phone"
+                                    id="prof_phone"
+                                    value="{{user.phone_number}}"
+                                    disabled
+                                />
+                            </div>
+                        </div>
+                    {% endif %}
 
                     <div class="mb-3">
                         <label for="title" class="form-label">Title</label>
@@ -201,6 +254,11 @@
     </div>
 {% endmacro %}
 
+
+<!-- admin action -->
+{% macro AdminAction(req, user) %}
+    {{ ViewRequest(user, req) }}
+{% endmacro %}
 
 <!-- professional actions -->
 {% macro ProfessionalAction(req, user) %}
@@ -381,6 +439,7 @@
                                     Professional Name
                                 {% endif %}
                             </th>
+                            <th scope="col">Price</th>
                             <th scope="col">Phone</th>
                             <th scope="col">Deadline</th>
                             <th scope="col">Status</th>
@@ -403,6 +462,7 @@
                                         {{req.customer.name}}
                                     {% endif %}
                                 </td>
+                                <td class="fw-bold">₹ <span class="text-success">{{req.service.price}}</span></td>
                                 <td>+91 
                                     {% if session.get('role') == 'customer' %}
                                         {{req.professional.phone_number}}
@@ -451,6 +511,10 @@
 
                                     {% if session.get('role') == 'customer' %}
                                         {{ CustomerAction(req, user) }}
+                                    {% endif %}
+
+                                    {% if session.get('role') == 'admin' %}
+                                        {{ AdminAction(req, user) }}
                                     {% endif %}
 
                                 </td>
