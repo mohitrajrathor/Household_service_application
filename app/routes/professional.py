@@ -186,11 +186,14 @@ def dashboard():
     if search_req:
         service_requests = ServiceRequest.query.filter_by(professional_id=user.id).filter(ServiceRequest.title.ilike(f'%{search_req}%')).all()
 
+    reviews = Reviews.query.filter_by(prof_id=user.id).all()
+
     params = {
         'user' : user,
         'services' : services,
         'requests' : service_requests,
-        'avg_rat' : avg_rating
+        'avg_rat' : avg_rating,
+        'reviews' : reviews
     }
 
     return render_template('professional/dashboard.html', **params)

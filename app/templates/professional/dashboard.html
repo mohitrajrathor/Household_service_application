@@ -181,5 +181,35 @@
             </div>
         </section>
 
+        <!-- Review Section for Professional Dashboard -->
+        <section class="container my-5">
+            <div class="rounded shadow">
+                <div class="rounded-top bg-dark p-2 w-100">
+                    <div class="d-flex justify-content-between">
+                        <h4 class="text-center text-light w-100">Reviews</h4>
+                    </div>
+                </div>
+                
+                {% if reviews %}
+                    <div class="list-group">
+                        {% for review in reviews %}
+                            <div class="list-group-item">
+                                <h5 class="d-flex justify-content-between">
+                                    <span><strong>{{ review.customer.name }}</strong></span>
+                                    <span class="badge badge-primary">{{ review.rating }} / 5</span>
+                                </h5>
+                                <p><em>{{ review.review }}</em></p>
+                                <small><strong>Service: </strong>{{ review.service_request.service.name }}</small><br>
+                                <small><strong>Completed On: </strong>{{ review.service_request.date_of_completion.strftime('%Y-%m-%d %H:%M:%S') }}</small>
+                            </div>
+                        {% endfor %}
+                    </div>
+                {% else %}
+                    <p>No reviews available for this professional yet.</p>
+                {% endif %}
+            </div>
+        </section>
+
+
     </div>
 {% endblock main %}
