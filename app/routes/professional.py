@@ -196,13 +196,6 @@ def dashboard():
     return render_template('professional/dashboard.html', **params)
 
 
-# search
-@prof.route('/search', methods=['POST', 'GET'])
-@is_prof
-def search():
-    return render_template('professional/search.html')
-
-
 
 # summary
 @prof.route('/summary', methods=['POST', 'GET'])

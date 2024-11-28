@@ -52,14 +52,36 @@ def login():
 @admin.route("/dashboard")
 @is_admin
 def dashboard():
+    search_service = request.args.get('search_service')
+    search_prof = request.args.get('search_prof')
+    search_cust = request.args.get('search_cust')
+    search_req = request.args.get('search_req')
 
-    services = Service.query.all()
-    professionals = Professional.query.all()
-    customers = Customer.query.all()
-    requests = ServiceRequest.query.all()
     user = Admins.query.get(session.get('id'))
 
-    print(requests)
+    if search_service:
+        services = Service.query.filter(Service.name.ilike(f'%{search_service}%'))
+    else:
+        services = Service.query.all()
+
+
+    if search_prof:
+        professionals = Professional.query.filter(Professional.name.ilike(f'%{search_prof}%'))
+    else:
+        professionals = Professional.query.all()
+
+
+    if search_cust:
+        customers = Customer.query.filter(Customer.name.ilike(f'%{search_cust}%'))
+    else:
+        customers = Customer.query.all()
+
+
+    if search_req:
+        requests = ServiceRequest.query.filter(ServiceRequest.title.ilike(f'%{search_req}%'))
+    else:
+        requests = ServiceRequest.query.all()
+
 
     params = {
         "user" : user,
@@ -72,10 +94,6 @@ def dashboard():
     return render_template('admin/dashboard.html', **params)
 
 
-@admin.route("/search")
-@is_admin
-def search():
-    return render_template('admin/search.html')
 
 
 @admin.route("/summary")

@@ -13,12 +13,6 @@
   </li>
   <li>
     <a 
-    class="nav-link {% if request.endpoint == 'admin.search' %}active{% endif %}" 
-    href="{{ url_for("admin.search") }}"
-    >Search</a>
-  </li>
-  <li>
-    <a 
     class="nav-link {% if request.endpoint == 'admin.summary' %}active{% endif %}" 
     href="{{ url_for("admin.summary") }}"
     >Summary</a>
@@ -43,7 +37,13 @@
       <div class="shadow mt-3 rounded mb-5">
 
         <div class="rounded-top bg-dark p-1">
-          <h4 class="text-center text-light">Manage Services</h4>
+          <div class="d-flex justify-content-between">
+            <h4 class="text-center text-light w-100">Manage Services</h4>
+            <form class="d-flex me-3" role="search">
+                <input class="form-control me-2" type="search" name="search_service" placeholder="Search" aria-label="Search">
+                <button class="btn btn-outline-light btn-sm" type="submit">Search</button>
+            </form>
+          </div>
         </div>
 
         {% if not services %}
@@ -64,7 +64,13 @@
       <div class="shadow mt-3 rounded mb-5">
 
         <div class="rounded-top bg-dark p-1">
-          <h4 class="text-center text-light">Manage Professional</h4>
+          <div class="d-flex justify-content-between">
+            <h4 class="text-center text-light w-100">Manage Professional</h4>
+            <form class="d-flex me-3" role="search">
+                <input class="form-control me-2" type="search" name="search_prof" placeholder="Search" aria-label="Search">
+                <button class="btn btn-outline-light btn-sm" type="submit">Search</button>
+            </form>
+        </div>
         </div>
 
         {% if not professionals %}
@@ -133,7 +139,13 @@
       <div class="shadow mt-3 rounded mb-5">
 
         <div class="rounded-top bg-dark p-1">
-          <h4 class="text-center text-light">Manage Customer</h4>
+          <div class="d-flex justify-content-between">
+            <h4 class="text-center text-light w-100">Manage Customers</h4>
+            <form class="d-flex me-3" role="search">
+                <input class="form-control me-2" type="search" name="search_cust" placeholder="Search" aria-label="Search">
+                <button class="btn btn-outline-light btn-sm" type="submit">Search</button>
+            </form>
+          </div>
         </div>
 
         {% if not customers %}

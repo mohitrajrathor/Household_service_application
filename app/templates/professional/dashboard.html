@@ -11,12 +11,6 @@
     </li>
     <li>
         <a 
-        class="nav-link {% if request.endpoint == 'professional.search' %}active{% endif %}" 
-        href="{{ url_for("professional.search") }}"
-        >Search</a>
-    </li>
-    <li>
-        <a 
         class="nav-link {% if request.endpoint == 'professional.summary' %}active{% endif %}" 
         href="{{ url_for("professional.summary") }}"
         >Summary</a>
