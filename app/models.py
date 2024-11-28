@@ -127,7 +127,7 @@ class ServiceRequest(db.Model):
     title = db.Column(db.String(255), nullable=False)
     time_of_request = db.Column(db.DateTime, default=datetime.datetime.now(datetime.UTC))
     date_of_completion = db.Column(db.DateTime, nullable=False)
-    service_status = db.Column(db.String(20), default='requested')  #  other values should be one of them 'in_progress', 'completed', 'cancelled', 'closed' 
+    service_status = db.Column(db.String(20), default='requested')  # other values should be 'in_progress', 'completed', 'cancelled' or 'paid' 
     remarks = db.Column(db.Text, nullable=True)
     location_pin_code = db.Column(db.String(10), nullable=False)
 
