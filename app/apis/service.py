@@ -17,6 +17,7 @@ service = Blueprint('service', __name__, url_prefix='/service')
 
 # create
 @service.route('/create', methods=['POST'])
+@is_admin
 def create_service():
     data = request.get_json()
     name = data['name']
@@ -40,6 +41,7 @@ def create_service():
 
 # get one servies
 @service.route('get-<int:service_id>', methods=['GET'])
+@is_admin
 def get_service(service_id):
     service = Service.query.get(service_id)
     if not service:
@@ -59,6 +61,7 @@ def get_service(service_id):
 
 # get
 @service.route('/get-all', methods=['GET'])
+@is_admin
 def get_all_services():
     services = Service.query.all()
     return jsonify([service.to_dict() for service in services]), 200
@@ -66,6 +69,7 @@ def get_all_services():
 
 # update
 @service.route('/update-<int:service_id>', methods=['PUT'])
+@is_admin
 def update_service(service_id):
     service = Service.query.get(service_id)
     if not service:
@@ -83,6 +87,7 @@ def update_service(service_id):
 
 # delete
 @service.route('/delete-<int:service_id>', methods=['DELETE'])
+@is_admin
 def delete_service(service_id):
     service = Service.query.get(service_id)
     if not service:
@@ -95,6 +100,7 @@ def delete_service(service_id):
 
 # search by name
 @service.route('/search', methods=['GET'])
+@is_admin
 def search_services():
     search_term = request.args.get('name')
     services = Service.query.filter(Service.name.ilike(f"%{search_term}%")).all()
