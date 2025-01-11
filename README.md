@@ -15,6 +15,9 @@
 ## Introduction
 The Household Services Application is a multi-user platform designed to connect customers with service professionals offering various home services. The application allows for seamless service management, user administration, and service request handling. This project aims to streamline the process of booking and managing household services.
 
+#### Demo
+![Gif](./assests/demo.gif)
+
 ## Technologies Used
 - **Flask**: A micro web framework for Python used to build the application.
 - **Jinja2**: Templating engine for rendering HTML pages.
